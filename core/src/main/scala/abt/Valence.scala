@@ -26,7 +26,7 @@ import scalaz.syntax.show._
 /** Describes the sort of an argument to an operator along with the number
   * and sorts of the variables bound within it.
   */
-final case class Valence[Sort](vars: Vector[Sort], sort: Sort)
+final case class Valence[S](vars: Vector[S], sort: S)
 
 object Valence extends ValenceInstances {
   def noVars[S](sort: S): Valence[S] =

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package abt
+package abt.ln
 
 import slamdata.Predef._
 

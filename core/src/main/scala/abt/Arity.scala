@@ -26,7 +26,7 @@ import scalaz.syntax.show._
 /** Specifies an operator with sort `sort` accepting `args` arguments with
   * cooresponding valences.
   */
-final case class Arity[Sort](args: Vector[Valence[Sort]], sort: Sort)
+final case class Arity[S](args: Vector[Valence[S]], sort: S)
 
 // TODO: Lenses
 object Arity extends ArityInstances {

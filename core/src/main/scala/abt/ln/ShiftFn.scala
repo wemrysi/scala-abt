@@ -14,27 +14,21 @@
  * limitations under the License.
  */
 
-package abt
+package abt.ln
 
 import slamdata.Predef._
 
 import scalaz._
-import scalaz.std.tuple._
-import scalaz.std.anyVal._
-import scalaz.syntax.contravariant._
 
-final class Coord private (val i: Int, val j: Int) {
-  def shiftRight: Coord = new Coord(i, j + 1)
-  def shiftDown: Coord = new Coord(i + 1, j)
+final case class ShiftFn[A, B](f: (Coord, A) => B) extends AnyVal
+
+object ShiftFn {
+  implicit val shiftFnCat: Category[ShiftFn] =
+    new Category[ShiftFn] {
+      def id[A]: ShiftFn[A, A] =
+        ShiftFn((_, a) => a)
+
+      def compose[A, B, C](f: ShiftFn[B, C], g: ShiftFn[A, B]): ShiftFn[A, C] =
+        ShiftFn((c, a) => f.f(c, g.f(c.shiftDown, a)))
+    }
 }
-
-object Coord {
-  val origin: Coord = new Coord(0, 0)
-
-  implicit val coordEqual: Equal[Coord] =
-    Equal.equalBy(c => (c.i, c.j))
-
-  implicit val coordShow: Show[Coord] =
-    Show[(Int, Int)].contramap(c => (c.i, c.j))
-}
-
