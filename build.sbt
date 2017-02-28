@@ -41,6 +41,7 @@ lazy val core = (project in file("core"))
     name := "abt-core",
     libraryDependencies ++= Seq(
       CommonDependencies.monocle.core,
-      CommonDependencies.scalaz.core
+      CommonDependencies.scalaz.core,
+      "com.slamdata" %% "matryoshka-core" % "0.16.11"
     )
   ))
