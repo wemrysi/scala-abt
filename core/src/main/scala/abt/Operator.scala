@@ -16,10 +16,10 @@
 
 package abt
 
-trait Operator[O, S] {
-  def arity(op: O): Arity[S]
+trait Operator[O[_], S] {
+  def arity[A](op: O[A]): Arity[S]
 }
 
 object Operator {
-  def apply[O, S](implicit O: Operator[O, S]): Operator[O, S] = O
+  def apply[O[_], S](implicit O: Operator[O, S]): Operator[O, S] = O
 }

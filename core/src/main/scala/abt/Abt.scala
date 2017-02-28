@@ -20,12 +20,13 @@ import slamdata.Predef._
 
 import scalaz._
 
-/** @tparam S Sort (syntactic category)
+/** Abstract Binding Tree
   * @tparam V Type of variables
-  * @tparam O underlying AST
+  * @tparam S Sort (syntactic category)
+  * @tparam O underlying AST (Operators)
   * @tparam T Abt concrete instance
   */
-trait Abt[S, V, O, T] {
+trait Abt[V, S, O[_], T] {
   /** Construct an ABT from a view, validating it against the given sort. */
   // TODO: Better name, not a big fan of 'check' but 'into' isn't any better.
   def into[F[_]](view: View[V, O, T], sort: S)(implicit ME: MonadError[F, AbtError[S, V]]): F[T]
@@ -55,5 +56,5 @@ trait Abt[S, V, O, T] {
 }
 
 object Abt {
-  def apply[S, V, O, T](implicit A: Abt[S, V, O, T]): Abt[S, V, O, T] = A
+  def apply[V, S, O[_], T](implicit A: Abt[V, S, O, T]): Abt[V, S, O, T] = A
 }
