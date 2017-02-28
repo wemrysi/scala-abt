@@ -16,6 +16,8 @@
 
 package abt
 
+import slamdata.Predef._
+
 import scalaz._
 
 /** @tparam S Sort (syntactic category)

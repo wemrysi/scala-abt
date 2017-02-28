@@ -16,7 +16,9 @@
 
 package abt.ln
 
+/*
 import slamdata.Predef._
+import abt._
 
 import scalaz._
 import scalaz.std.vector._
@@ -25,7 +27,6 @@ import scalaz.syntax.equal._
 import scalaz.syntax.apply._
 import scalaz.syntax.foldable._
 
-/** Locally nameless terms with operators in `O`, variables `V` and sorts `S` */
 sealed trait LN[S, V, O]
 
 object LN {
@@ -38,9 +39,9 @@ object LN {
   final case class Application[S, V, O](o: O, args: Vector[LN[S, V, O]])
     extends LN[S, V, O]
 
-  /** NB: Not inherently stack safe, depends on the underlying Monad to
+  ** NB: Not inherently stack safe, depends on the underlying Monad to
     * provide stack safety.
-    */
+    *
   implicit def lnAbt[S, V, O]: Abt[S, V, O, LN[S, V, O]] =
     new Abt[S, V, O, LN[S, V, O]] {
       import AbtError._
@@ -166,10 +167,10 @@ object LN {
         else ME.raiseError(valenceMismatch(v1, v2))
       }
 
-      /** Bind the variables in the given term.
+      ** Bind the variables in the given term.
         *
         * TODO: Stack safety
-        */
+        *
       private def imprisonVariables(vs: Vector[V], t: T)(implicit V: Equal[V]): T = {
         def imprisonVariable(v: V, c: Coord, e: T): T =
           e match {
@@ -189,10 +190,10 @@ object LN {
           .f(Coord.origin, t)
       }
 
-      /** Replace bound variables in the given term with free variables.
+      ** Replace bound variables in the given term with free variables.
         *
         * TODO: Stack safety
-        */
+        *
       private def liberateVariables(vs: Vector[V], t: T): T = {
         def liberateVariable(v: V, c: Coord, e: T): T =
           e match {
@@ -213,3 +214,4 @@ object LN {
       }
     }
 }
+*/

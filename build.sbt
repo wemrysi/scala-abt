@@ -40,6 +40,7 @@ lazy val core = (project in file("core"))
   .settings(Seq(
     name := "abt-core",
     libraryDependencies ++= Seq(
+      CommonDependencies.monocle.core,
       CommonDependencies.scalaz.core
     )
   ))
