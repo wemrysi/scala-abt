@@ -24,24 +24,32 @@ import scalaz._
   * @tparam T Abt concrete instance
   */
 trait Abt[S, V, O, T] {
-  def check[F[_]](
-    view: View[V, O, T],
-    valence: Valence[S]
-  )(implicit
-    ME: MonadError[F, AbtError[S, V]],
-    MV: MonadVar[F, V],
-    O:  Operator[S, O],
-    SE: Equal[S],
-    SV: Equal[V]
-  ): F[T]
+  /** Construct an ABT from a view, validating it against the given sort. */
+  // TODO: Better name, not a big fan of 'check' but 'into' isn't any better.
+  def into[F[_]](view: View[V, O, T], sort: S)(implicit ME: MonadError[F, AbtError[S, V]]): F[T]
 
-  def infer[F[_]](
-    t: T
-  )(implicit
-    ME: MonadError[F, AbtError[S, V]],
-    MV: MonadVar[F, V],
-    O:  Operator[S, O]
-  ): F[(Valence[S], View[V, O, T])]
+  /** Pattern match on an ABT and its sort. */
+  def infer(t: T): (View[V, O, T], S)
+
+  /** Pattern match on an ABT. */
+  def view(t: T): View[V, O, T] =
+    infer(t)._1
+
+  /** Returns whether two ABTs are alpha equivalent. */
+  def aequiv(x: T, y: T): Boolean = ???
+
+  /** The free variables within the given ABT. */
+  def freeVars[F[_]: PlusEmpty](abt: T): F[(V, S)] = ???
+
+  /** Rename `from` to `to` in an ABT. */
+  def rename(from: V, to: V): T => T = ???
+
+  /** Returns the sort of an ABT. */
+  def sort(t: T): S =
+    infer(t)._2
+
+  /** Substitutes `t` for `x` in `body`, avoiding capture. */
+  def subst(t: T, x: V): T => T = ???
 }
 
 object Abt {
